@@ -37,9 +37,14 @@ class BachActor extends Actor {
   def receive = {
     case "START" => {
       // Question 2
-      println("Duration" + duration(exemple))
+      println("Duration" +" "+ duration(exemple))
       // Question 3
       play(exemple)
+      val copyExemple = copy(exemple) // copy
+      println(note_count(exemple)) // count_note
+      assert(note_count(exemple) == note_count(copyExemple)) // count_note
+      val stretchedExemple = stretch(copyExemple, 2) // stretch: 2 times slower
+      play_midi(stretchedExemple, duration(exemple) + 1000) // stretch: play stretched after the exemple (1 second between them)
     }
   }
 
