@@ -60,7 +60,12 @@ class BachActor extends Actor {
 
       // exemple2
       println("duration: " + duration(exemple2))
-      play(exemple2)
+      //      play(exemple2)
+
+      // Question 05: Canon bach
+      val canonBash = canon_Bach()
+      println("duration: " + duration(canonBash))
+      play(canonBash)
     }
   }
 
@@ -221,8 +226,39 @@ class BachActor extends Actor {
     Note(52, 125, 100), Note(53, 125, 100), Note(55, 125, 100),
     Note(58, 125, 100), Note(57, 125, 100), Note(55, 125, 100)))
 
+  // Canon Bach
   def canon_Bach(): ObjectMusical = {
-    return Parallel(List(voix1, voix2))
+    return Parallel(List(
+      Sequential(List(
+        voix1,
+        transpose(voix1, 2),
+        transpose(voix1, 4),
+        transpose(voix1, 6),
+        transpose(voix1, 8),
+        transpose(voix1, 10)
+      )),
+      Sequential(
+        List(
+          voix2,
+          transpose(voix2, 2),
+          transpose(voix2, 4),
+          transpose(voix2, 6),
+          transpose(voix2, 8),
+          transpose(voix2, 10)
+        )),
+      Sequential(List(
+        Rest(2000),
+        transpose(Sequential(
+          List(
+            voix2,
+            transpose(voix2, 2),
+            transpose(voix2, 4),
+            transpose(voix2, 6),
+            transpose(voix2, 8),
+            transpose(voix2, 10)
+          )), 7)
+      ))
+    ))
   }
 }
 
