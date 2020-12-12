@@ -37,14 +37,30 @@ class BachActor extends Actor {
   def receive = {
     case "START" => {
       // Question 2
-      println("Duration" +" "+ duration(exemple))
+      println("duration: " + duration(exemple))
       // Question 3
-      play(exemple)
+      //      play(exemple)
       val copyExemple = copy(exemple) // copy
-      println(note_count(exemple)) // count_note
+      println("note count: " + note_count(exemple)) // count_note
       assert(note_count(exemple) == note_count(copyExemple)) // count_note
       val stretchedExemple = stretch(copyExemple, 2) // stretch: 2 times slower
-      play_midi(stretchedExemple, duration(exemple) + 1000) // stretch: play stretched after the exemple (1 second between them)
+      //      play_midi(stretchedExemple, duration(exemple) + 1000) // stretch: play stretched after the exemple (1 second between them)
+      // Question 04
+      val exempleReapeted = repeat(exemple, 3) // repeat
+      println("duration: " + duration(exempleReapeted))
+      //      play(exempleReapeted)
+
+      val exempleCanon = canon(exemple, 200)
+      println("duration: " + duration(exempleCanon))
+      //      play(exempleCanon)
+
+      val exempleConcat = concat(exempleCanon, exempleReapeted)
+      println("duration: " + duration(exempleConcat))
+      //      play(exempleConcat)
+
+      // exemple2
+      println("duration: " + duration(exemple2))
+      play(exemple2)
     }
   }
 
@@ -125,48 +141,46 @@ class BachActor extends Actor {
 
   // Question 4
 
-  /*
   // Transpose obj de n demitons
-    def transpose (obj:ObjectMusical, n:Int ):ObjectMusical =
-  obj match {
-    case Note(p,d,v) => Note(p+n,d,v)
-    case Rest(d) => Rest(d)
-    case Parallel (l) => Parallel (l.map(transpose (_,n)))
-    case Sequential (l) => Sequential (l.map(transpose (_,n)))
-  }
+  def transpose(obj: ObjectMusical, n: Int): ObjectMusical =
+    obj match {
+      case Note(p, d, v) => Note(p + n, d, v)
+      case Rest(d) => Rest(d)
+      case Parallel(l) => Parallel(l.map(transpose(_, n)))
+      case Sequential(l) => Sequential(l.map(transpose(_, n)))
+    }
 
   // mirror de obj au tour du center c
-    def mirror (obj:ObjectMusical, c:Int ):ObjectMusical =
-  obj match {
-    case Note(p,d,v) => Note(c - (p - c),d,v)
-    case Rest(d) => Rest(d)
-    case Parallel (l) => Parallel (l.map(mirror (_,c)))
-    case Sequential (l) => Sequential (l.map(mirror (_,c)))
-  }
+  def mirror(obj: ObjectMusical, c: Int): ObjectMusical =
+    obj match {
+      case Note(p, d, v) => Note(c - (p - c), d, v)
+      case Rest(d) => Rest(d)
+      case Parallel(l) => Parallel(l.map(mirror(_, c)))
+      case Sequential(l) => Sequential(l.map(mirror(_, c)))
+    }
 
   // retrograde un obj
-    def retrograde (obj:ObjectMusical):ObjectMusical =
-  obj match {
-    case Sequential (l) => Sequential (l.reverse.map(retrograde))
-    case o => o
-  }
-
-  //Question 5
-
+  def retrograde(obj: ObjectMusical): ObjectMusical =
+    obj match {
+      case Sequential(l) => Sequential(l.reverse.map(retrograde))
+      case o => o
+    }
 
   // make a sequential avec n fois obj
-    def repeat (obj:ObjectMusical, n:Int):ObjectMusical =
-    //code here
+  def repeat(obj: ObjectMusical, n: Int): ObjectMusical =
+    Sequential(List.fill(n)(obj))
 
   // make obj en parallele avec lui meme avec un decalage de n ms.
-    def canon (obj:ObjectMusical, n:Int):ObjectMusical =
-    //code here
+  def canon(obj: ObjectMusical, n: Int): ObjectMusical =
+    Parallel(List(obj, Sequential(List(Rest(n), obj))))
 
 
   //  Met obj1 et obj2 en seqeunce
-    def concat (obj1:ObjectMusical, obj2:ObjectMusical):ObjectMusical =
-    //code here
-  */
+  def concat(obj1: ObjectMusical, obj2: ObjectMusical): ObjectMusical =
+    Sequential(List(obj1, obj2))
+
+  // canon (repeat exemple 3) 1000
+  val exemple2 = canon(repeat(exemple, 3), 1000)
 
   //Question 5 BACH
   val voix1 = Sequential(List(
