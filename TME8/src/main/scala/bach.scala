@@ -226,37 +226,37 @@ class BachActor extends Actor {
     Note(52, 125, 100), Note(53, 125, 100), Note(55, 125, 100),
     Note(58, 125, 100), Note(57, 125, 100), Note(55, 125, 100)))
 
+  val voix3 = transpose(voix2, 7)
+
   // Canon Bach
   def canon_Bach(): ObjectMusical = {
     return Parallel(List(
       Sequential(List(
-        voix1,
         transpose(voix1, 2),
         transpose(voix1, 4),
         transpose(voix1, 6),
         transpose(voix1, 8),
-        transpose(voix1, 10)
+        transpose(voix1, 10),
+        transpose(voix1, 12)
       )),
-      Sequential(
-        List(
-          voix2,
-          transpose(voix2, 2),
-          transpose(voix2, 4),
-          transpose(voix2, 6),
-          transpose(voix2, 8),
-          transpose(voix2, 10)
-        )),
+      Sequential(List(
+        transpose(voix2, 2),
+        transpose(voix2, 4),
+        transpose(voix2, 6),
+        transpose(voix2, 8),
+        transpose(voix2, 10),
+        transpose(voix2, 12)
+      )),
       Sequential(List(
         Rest(2000),
-        transpose(Sequential(
-          List(
-            voix2,
-            transpose(voix2, 2),
-            transpose(voix2, 4),
-            transpose(voix2, 6),
-            transpose(voix2, 8),
-            transpose(voix2, 10)
-          )), 7)
+        Sequential(List(
+          transpose(voix3, 2),
+          transpose(voix3, 4),
+          transpose(voix3, 6),
+          transpose(voix3, 8),
+          transpose(voix3, 10),
+          transpose(voix3, 12)
+        ))
       ))
     ))
   }
